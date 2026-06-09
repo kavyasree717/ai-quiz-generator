@@ -1,0 +1,32 @@
+# Render Blueprint — deploys the FastAPI backend + a free Postgres database.
+# Usage: push this repo to GitHub, then on Render: New > Blueprint > pick the repo.
+services:
+  - type: web
+    name: ai-quiz-generator-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.4"
+      # Generated automatically by Render (strong random values):
+      - key: SECRET_KEY
+        generateValue: true
+      # Connects to the database defined below:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ai-quiz-db
+          property: connectionString
+      # ENCRYPTION_KEY: set this manually in the dashboard (see deploy guide).
+      - key: ENCRYPTION_KEY
+        sync: false
+      # CORS: set this to your Vercel frontend URL after the frontend deploys.
+      - key: CORS_ORIGINS
+        sync: false
+
+databases:
+  - name: ai-quiz-db
+    plan: free

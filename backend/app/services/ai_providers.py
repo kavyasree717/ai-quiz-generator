@@ -88,7 +88,7 @@ class GroqProvider(OpenAICompatProvider):
 class OpenRouterProvider(OpenAICompatProvider):
     name = "openrouter"
     base_url = "https://openrouter.ai/api/v1"
-    default_model = "meta-llama/llama-3.3-70b-instruct:free"
+    default_model = "google/gemma-3-27b-it:free"
 
 
 class GeminiProvider(BaseProvider):
